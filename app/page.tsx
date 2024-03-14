@@ -1,16 +1,11 @@
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable"
+
+
 
 
 export default function Home() {
   return (
-    <ResizablePanelGroup direction="horizontal">
-      <ResizablePanel>One</ResizablePanel>
-      <ResizableHandle />
-      <ResizablePanel>Two</ResizablePanel>
-    </ResizablePanelGroup>
+    <div>
+      <h1>Hello world</h1>
+    </div>
   );
 }
