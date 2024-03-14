@@ -22,7 +22,7 @@ const Navbar = async () => {
                             <Button>Log out</Button>
                         </LogoutLink>
                     ) : (
-                        <div className="flex items-center ga-x-5">
+                        <div className="flex items-center gap-x-5">
                             <LoginLink>
                                 <Button>Sign In</Button>
                             </LoginLink>
