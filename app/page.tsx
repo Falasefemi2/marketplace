@@ -1,3 +1,6 @@
+import { Button } from "@/components/ui/button";
+import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components";
+
 
 export default function Home() {
   return (
@@ -11,6 +14,12 @@ export default function Home() {
 
             <h1 className="mt-8 text-3xl font-extrabold tracking-tight lg:text-6xl">Unlock Your Marketplace Potential</h1>
             <p className="max-w-xl mx-auto mt-8 text-base lg:text-xl text-secondary-foreground">Discover a vibrant community of buyers and sellers. Explore unique products, find hidden gems, and turn your passions into profits. With intuitive tools and seamless transactions, your journey in the marketplace begins here.</p>
+          </div>
+
+          <div className="flex justify-center max-w-sm mx-auto mt-10">
+            <RegisterLink>
+              <Button size="lg" className="w-full">Sign Up for Free</Button>
+            </RegisterLink>
           </div>
         </div>
       </div>
