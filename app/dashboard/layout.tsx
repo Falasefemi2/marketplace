@@ -4,7 +4,14 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import prisma from "../libs/db";
 
-async function getData({ email, id, firstName, lastName, profileImage }: { email: string, id: string, firstName: string | undefined | null, lastName: string | undefined | null, profileImage: string | undefined | null }) {
+async function getData({ email, id, firstName, lastName, profileImage }:
+    {
+        email: string,
+        id: string,
+        firstName: string | undefined | null,
+        lastName: string | undefined | null,
+        profileImage: string | undefined | null
+    }) {
     const user = await prisma.user.findUnique({
         where: {
             id: id,

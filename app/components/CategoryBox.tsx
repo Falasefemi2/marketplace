@@ -1,0 +1,59 @@
+"use client";
+
+import { LucideIcon } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
+import qs from 'query-string'
+
+
+
+const CategoryBox = ({
+    Icon,
+    label
+}: {
+    Icon: LucideIcon
+    label: string
+}) => {
+    const router = useRouter();
+    const params = useSearchParams();
+
+    const handleClick = useCallback(() => {
+        let currentQuery = {};
+
+        if (params) {
+            currentQuery = qs.parse(params.toString());
+        }
+
+        const updatedQuery: any = {
+            ...currentQuery,
+            category: label
+        }
+
+        if (params?.get('category') === label) {
+            delete updatedQuery.category
+        }
+
+        const url = qs.stringifyUrl({
+            url: '/dashboard',
+            query: updatedQuery
+        }, { skipNull: true });
+
+        router.push(url);
+    }, [label, params, router])
+
+    return (
+        <div className="hidden md:grid items-center gap-2 cursor-pointer" onClick={handleClick}>
+            <span className="group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground">
+                <Icon size={26} className="mr-2 h-4 w-4 text-primary" />
+                <span className="font-medium text-sm">
+                    {label}
+                </span>
+            </span>
+        </div>
+    );
+}
+
+export default CategoryBox;
+
+
+

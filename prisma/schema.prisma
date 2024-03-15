@@ -11,6 +11,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
 }
 
 
@@ -18,11 +19,41 @@ model User {
     id String @unique
     name String?
     email String @unique
-    emailVerified DateTime?
-    picture String?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    favoriteIds String[]   @db.VarChar(100)
+
+    listings Listing[]
+    reservations Reservation[]
+}
+
+model Listing {
+    id String @unique
+    title String
+    description String
+    imageSrc String
+    createdAt DateTime @default(now())
+    category String
+    condition String
+    price Int
+    userId String @db.VarChar(100)
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    reservations Reservation[]
+}
+
+model Reservation {
+    id String @unique
+    userId String @db.VarChar(100)
+    listingId String @db.VarChar(100)
+    startDate DateTime
+    endDate DateTime
+    tottalPrice Int
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+    
 }
 
 
-// Dx+z_YjmR@5J*wL

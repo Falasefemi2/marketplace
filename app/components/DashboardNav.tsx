@@ -1,16 +1,17 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Briefcase, Home, Store, Tag } from "lucide-react";
+import { Separator } from "@/components/ui/separator"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navItems } from "./UserNav";
+import Categories from "./Categories";
 
 
 
 const DashbaordNav = () => {
     const pathName = usePathname()
-    console.log(pathName);
+
 
     return (
         <nav className="grid items-center gap-2">
@@ -24,6 +25,8 @@ const DashbaordNav = () => {
                     </span>
                 </Link>
             ))}
+            <Separator />
+            <Categories />
         </nav>
     );
 }
