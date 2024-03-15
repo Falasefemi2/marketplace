@@ -5,6 +5,12 @@ import { Briefcase, DoorClosed, Home, Tag } from "lucide-react";
 import Link from "next/link";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
+interface UserNavProps {
+    name: string;
+    email: string;
+    image?: string;
+}
+
 
 export const navItems = [
     { name: 'Home', href: '/dashboard', icon: Home },
@@ -12,13 +18,13 @@ export const navItems = [
     { name: 'Selling', href: '/dashboard/selling', icon: Tag },
 ]
 
-const UserNav = () => {
+const UserNav: React.FC<UserNavProps> = ({ name, email, image }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant='ghost' className="relative h-10 w-10 rounded-full">
                     <Avatar className="h-10 w-10 rounded-full">
-                        <AvatarImage alt="img" />
+                        <AvatarImage src={image} alt="img" />
                         <AvatarFallback>Femi</AvatarFallback>
                     </Avatar>
                 </Button>
@@ -26,8 +32,8 @@ const UserNav = () => {
             <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel>
                     <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">Femi</p>
-                        <p className="text-xs leading-none text-muted-foreground">Femi@gmail.com</p>
+                        <p className="text-sm font-medium leading-none">{name}</p>
+                        <p className="text-xs leading-none text-muted-foreground">{email}</p>
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
