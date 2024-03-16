@@ -1,5 +1,9 @@
+"use client";
+
 import { Cable, Camera, Car, Dog, Goal, Guitar, Heart, HomeIcon, Shirt, Shovel, Tag, Tent, ToyBrick } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
 import CategoryBox from "./CategoryBox";
+
 
 export const categories = [
     {
@@ -57,6 +61,17 @@ export const categories = [
 ]
 
 const Categories = () => {
+    const params = useSearchParams()
+    const category = params.get('category')
+    const pathName = usePathname()
+
+    const isMainPage = pathName === '/dashboard';
+
+    if (!isMainPage) {
+        return null
+    }
+
+
     return (
         <div className="pt-4">
             <p>Categories</p>
@@ -66,6 +81,7 @@ const Categories = () => {
                         key={item.label}
                         label={item.label}
                         Icon={item.icon}
+                        selected={category === item.label}
                     />
                 ))}
             </div>
