@@ -7,20 +7,20 @@ import qs from 'query-string'
 import { usePathname } from "next/navigation";
 
 
-const CategoryBox = ({
-    Icon,
-    label,
-    selected = false
-}: {
-    Icon: LucideIcon
-    label: string
-    selected?: boolean
-}) => {
+
+const MobileCategoriesBox = (
+    {
+        Icon,
+        label,
+        selected = false
+    }: {
+        Icon: LucideIcon
+        label: string
+        selected?: boolean
+    }) => {
     const router = useRouter();
     const params = useSearchParams();
     const pathName = usePathname();
-
-
 
     const handleClick = useCallback(() => {
         let currentQuery = {};
@@ -47,19 +47,17 @@ const CategoryBox = ({
     }, [label, params, router])
 
     return (
-        <div className={`hidden md:grid items-center gap-2 cursor-pointer ${selected ? 'bg-accent' : 'bg-transparent'}`} onClick={handleClick}>
-            <span className="group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground">
-                <Icon size={26} className="mr-2 h-4 w-4 text-primary" />
-                <span className="font-medium text-sm">
-                    {label}
+        <div>
+            <>
+                <span className="group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground" onClick={handleClick}>
+                    <Icon size={26} className="mr-2 h-4 w-4 text-primary" />
+                    <span className="font-medium text-sm">
+                        {label}
+                    </span>
                 </span>
-            </span>
+            </>
         </div>
     );
 }
 
-export default CategoryBox;
-
-
-// {cn("hidden md:grid items-center gap-2 cursor-pointer", pathName === label ? "bg-accent" : "bg-transparent")}
-// npx v0 add TtKaKo0TAc2
+export default MobileCategoriesBox;

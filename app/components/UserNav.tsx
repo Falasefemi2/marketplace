@@ -14,8 +14,8 @@ interface UserNavProps {
 
 export const navItems = [
     { name: 'Home', href: '/dashboard', icon: Home },
-    { name: 'Buying', href: '/dashboard/buying', icon: Briefcase },
-    { name: 'Selling', href: '/dashboard/selling', icon: Tag },
+    { name: 'Buy', href: '/dashboard/buying', icon: Briefcase },
+    { name: 'Sell', href: '/dashboard/selling', icon: Tag },
 ]
 
 const UserNav: React.FC<UserNavProps> = ({ name, email, image }) => {
