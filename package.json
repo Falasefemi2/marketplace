@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@kinde-oss/kinde-auth-nextjs": "^2.1.15",
     "@prisma/client": "^5.11.0",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -36,7 +36,8 @@
     "react-resizable-panels": "^2.0.12",
     "react-socks": "^2.2.0",
     "tailwind-merge": "^2.2.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/node": "^20",
