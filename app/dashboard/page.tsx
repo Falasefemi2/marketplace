@@ -1,6 +1,14 @@
+import ClientMobile from "../components/ClientMobile";
+
+
+
+
 const Dashboard = () => {
     return (
-        <div>Dashboard</div>
+        <div>
+            <ClientMobile />
+
+        </div>
     );
 }
 
