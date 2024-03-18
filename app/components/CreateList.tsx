@@ -1,3 +1,4 @@
+
 "use client";
 
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -22,10 +23,13 @@ import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation";
 import { ToastAction } from "@/components/ui/toast"
 import FormInput from "./FormInput";
+import { Loader } from "lucide-react";
+import { useFormStatus } from "react-dom";
 
 
 const CreateList = () => {
     const router = useRouter();
+    const { pending } = useFormStatus();
     const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm<FieldValues>({
         defaultValues: {
             title: "",
@@ -112,7 +116,6 @@ const CreateList = () => {
                 errors={errors}
                 required
             />
-            <Label htmlFor="optional">Optional</Label>
             <Select onValueChange={handleCategoryChange} value={watchedCategory}>
                 <SelectTrigger className="">
                     <SelectValue placeholder="Categories" />
@@ -131,9 +134,17 @@ const CreateList = () => {
             <Textarea placeholder="Description."
                 {...register("description")}
                 value={watchedDescription}
+                className={errors.description ? 'border-red-500' : ''}
             />
-            <Button onClick={handleSubmit(onSubmit)}
-            >Publish</Button>
+
+            <>
+                {pending ? (
+                    <Button disabled><Loader className="mr-2 w-4 h-4 animate-spin" />Please Wait</Button>
+                ) : (
+                    <Button onClick={handleSubmit(onSubmit)}
+                    >Publish</Button>
+                )}
+            </>
         </div>
     );
 }
