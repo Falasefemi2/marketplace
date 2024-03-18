@@ -16,7 +16,7 @@ const Create = async () => {
 
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-y-5">
             <div className="flex flex-col">
                 {(await isAuthenticated()) ? (
                     <div className="flex items-center gap-x-5">
@@ -35,7 +35,9 @@ const Create = async () => {
                 )}
             </div>
 
-            <CreateList />
+            <div>
+                <CreateList />
+            </div>
 
 
         </div>

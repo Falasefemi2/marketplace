@@ -28,32 +28,29 @@ model User {
 }
 
 model Listing {
-    id String @unique
-    title String
-    description String
-    imageSrc String
-    createdAt DateTime @default(now())
-    category String
-    condition String
-    price Int
-    userId String @db.VarChar(100)
-
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    reservations Reservation[]
+  id        String    @id @default(uuid())
+  title     String
+  description String
+  imageSrc  String
+  createdAt DateTime  @default(now())
+  category  String
+  condition String
+  price     Int
+  userId    String    @db.VarChar(100)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reservations Reservation[]
 }
 
 model Reservation {
-    id String @unique
-    userId String @db.VarChar(100)
-    listingId String @db.VarChar(100)
-    startDate DateTime
-    endDate DateTime
-    tottalPrice Int
-    createdAt DateTime @default(now())
-
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
-    
+  id        String   @id @default(uuid())
+  userId    String   @db.VarChar(100)
+  listingId String   @unique @db.VarChar(100)
+  startDate DateTime
+  endDate   DateTime
+  tottalPrice Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listing   Listing  @relation(fields: [listingId], references: [id])
 }
 
 
