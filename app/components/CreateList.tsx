@@ -137,14 +137,16 @@ const CreateList = () => {
                 className={errors.description ? 'border-red-500' : ''}
             />
 
-            <>
+            {/* <>
                 {pending ? (
                     <Button disabled><Loader className="mr-2 w-4 h-4 animate-spin" />Please Wait</Button>
                 ) : (
                     <Button onClick={handleSubmit(onSubmit)}
                     >Publish</Button>
                 )}
-            </>
+            </> */}
+            <Button onClick={handleSubmit(onSubmit)}
+            >Publish</Button>
         </div>
     );
 }
