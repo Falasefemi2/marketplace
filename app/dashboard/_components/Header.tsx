@@ -3,9 +3,46 @@ import { UserButton } from "@clerk/nextjs"
 import { LayoutGrid, Menu, Settings, ShoppingBag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { auth, currentUser } from "@clerk/nextjs/server"
+import { db } from "@/app/db"
+import { users } from "@/app/db/schema"
+import { sql } from "drizzle-orm"
 
 
-export default function Header() {
+export default async function Header() {
+    const { userId } = auth();
+
+    const user = await currentUser();
+
+    if (user && userId) {
+
+        try {
+            const newUser = await db.insert(users).values({
+                // id: numericUserId,
+                email: user.emailAddresses[0]?.emailAddress || "",
+                profileImageUrl: user.imageUrl || "",
+                firstName: user.firstName || "",
+                lastName: user.lastName || "",
+            })
+                .onConflictDoUpdate({
+                    target: users.id,
+                    set: {
+                        email: sql`${user.emailAddresses[0]?.emailAddress}`,
+                        profileImageUrl: sql`${user.imageUrl}`,
+                        firstName: sql`${user.firstName}`,
+                        lastName: sql`${user.lastName}`,
+                        updatedAt: sql`CURRENT_TIMESTAMP`,
+                    },
+                })
+                .returning();
+
+            console.log("User created or updated:", newUser[0]);
+        } catch (error) {
+            console.error("Error creating user in database:", error);
+        }
+    }
+
+
     return (
         <>
             <header className="flex items-center justify-between p-4 bg-background border-b">
@@ -50,7 +87,13 @@ export default function Header() {
                     </Sheet>
                     <h1 className="text-xl font-bold ml-2 lg:ml-0">AI Marketplace</h1>
                 </div>
-                <UserButton />
+                {user ? (
+                    <>
+                        <UserButton />
+                    </>
+                ) : (
+                    <></>
+                )}
             </header>
         </>
 
