@@ -6,38 +6,83 @@ import Link from "next/link"
 import { auth, currentUser } from "@clerk/nextjs/server"
 import { db } from "@/app/db"
 import { users } from "@/app/db/schema"
-import { sql } from "drizzle-orm"
+import { eq } from "drizzle-orm"
 
 
 export default async function Header() {
-    const { userId } = auth();
+    // const { userId } = auth();
 
+    // const user = await currentUser();
+
+    // if (user && userId) {
+
+    //     try {
+    //         const newUser = await db.insert(users).values({
+    //             email: user.emailAddresses[0]?.emailAddress || "",
+    //             profileImageUrl: user.imageUrl || "",
+    //             firstName: user.firstName || "",
+    //             lastName: user.lastName || "",
+    //         })
+    //             .onConflictDoUpdate({
+    //                 target: users.id,
+    //                 set: {
+    //                     email: sql`${user.emailAddresses[0]?.emailAddress}`,
+    //                     profileImageUrl: sql`${user.imageUrl}`,
+    //                     firstName: sql`${user.firstName}`,
+    //                     lastName: sql`${user.lastName}`,
+    //                     updatedAt: sql`CURRENT_TIMESTAMP`,
+    //                 },
+    //             })
+    //             .returning();
+
+    //         console.log("User created or updated:", newUser[0]);
+    //     } catch (error) {
+    //         console.error("Error creating user in database:", error);
+    //     }
+    // }
+
+    const { userId } = auth();
     const user = await currentUser();
 
     if (user && userId) {
-
         try {
-            const newUser = await db.insert(users).values({
-                email: user.emailAddresses[0]?.emailAddress || "",
-                profileImageUrl: user.imageUrl || "",
-                firstName: user.firstName || "",
-                lastName: user.lastName || "",
-            })
-                .onConflictDoUpdate({
-                    target: users.id,
-                    set: {
-                        email: sql`${user.emailAddresses[0]?.emailAddress}`,
-                        profileImageUrl: sql`${user.imageUrl}`,
-                        firstName: sql`${user.firstName}`,
-                        lastName: sql`${user.lastName}`,
-                        updatedAt: sql`CURRENT_TIMESTAMP`,
-                    },
-                })
-                .returning();
+            // First, try to find the user by email
+            const existingUser = await db
+                .select()
+                .from(users)
+                .where(eq(users.email, user.emailAddresses[0]?.emailAddress || ""))
+                .limit(1);
 
-            console.log("User created or updated:", newUser[0]);
+            if (existingUser.length > 0) {
+                // User exists, update their information
+                const updatedUser = await db
+                    .update(users)
+                    .set({
+                        profileImageUrl: user.imageUrl || "",
+                        firstName: user.firstName || "",
+                        lastName: user.lastName || "",
+                        updatedAt: new Date(),
+                    })
+                    .where(eq(users.id, existingUser[0].id))
+                    .returning();
+
+                console.log("User updated:", updatedUser[0]);
+            } else {
+                // User doesn't exist, insert new user
+                const newUser = await db
+                    .insert(users)
+                    .values({
+                        email: user.emailAddresses[0]?.emailAddress || "",
+                        profileImageUrl: user.imageUrl || "",
+                        firstName: user.firstName || "",
+                        lastName: user.lastName || "",
+                    })
+                    .returning();
+
+                console.log("New user created:", newUser[0]);
+            }
         } catch (error) {
-            console.error("Error creating user in database:", error);
+            console.error("Error updating or creating user in database:", error);
         }
     }
 
