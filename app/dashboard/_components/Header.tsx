@@ -18,7 +18,6 @@ export default async function Header() {
 
         try {
             const newUser = await db.insert(users).values({
-                // id: numericUserId,
                 email: user.emailAddresses[0]?.emailAddress || "",
                 profileImageUrl: user.imageUrl || "",
                 firstName: user.firstName || "",
@@ -41,7 +40,6 @@ export default async function Header() {
             console.error("Error creating user in database:", error);
         }
     }
-
 
     return (
         <>
